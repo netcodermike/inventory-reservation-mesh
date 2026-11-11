@@ -1,0 +1,55 @@
+{
+  "slug": "inventory-reservation-mesh",
+  "gateway": [
+    "orders",
+    "/reserve",
+    "JavaScript"
+  ],
+  "worker": [
+    "stock",
+    "/hold",
+    "Python"
+  ],
+  "cases": [
+    [
+      "Reserve six of ten tees",
+      {
+        "orderId": "order-1",
+        "sku": "TEE",
+        "quantity": 6
+      },
+      200,
+      {
+        "reserved": 6,
+        "remaining": 4,
+        "replayed": false
+      }
+    ],
+    [
+      "Retry the same order safely",
+      {
+        "orderId": "order-1",
+        "sku": "TEE",
+        "quantity": 6
+      },
+      200,
+      {
+        "reserved": 6,
+        "remaining": 4,
+        "replayed": true
+      }
+    ],
+    [
+      "Reject an order that would oversell",
+      {
+        "orderId": "order-2",
+        "sku": "TEE",
+        "quantity": 5
+      },
+      409,
+      {
+        "error": "Insufficient stock"
+      }
+    ]
+  ]
+}
